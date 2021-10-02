@@ -46,7 +46,7 @@ public class Meldeanschrift {
     }
 
     public void setPerson(Integer id) {
-        
+
     }
 
     public void setAnschrift(Integer id) {
