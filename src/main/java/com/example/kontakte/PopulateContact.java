@@ -77,6 +77,7 @@ public class PopulateContact {
         for (Kommunikation k : kommunikationen) {
             logger.info(++counter + ". {}: {}", k.getTyp(), k.getWert());
         }
+        
     }
 
 }
