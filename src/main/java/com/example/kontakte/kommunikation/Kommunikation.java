@@ -16,7 +16,7 @@ public class Kommunikation {
     public Kommunikation() {
     }
 
-    public Kommunikation(String typ, String wert) {
+    public Kommunikation(KommunikationsTyp typ, String wert) {
         this.typ = typ;
         this.wert = wert;
     }
@@ -27,7 +27,8 @@ public class Kommunikation {
     private Integer id;
 
     @Column(name="typ")
-    private String typ;
+    @Enumerated(EnumType.STRING)
+    private KommunikationsTyp typ;
 
     @Column(name="wert")
     private String wert;
@@ -58,11 +59,11 @@ public class Kommunikation {
         return person != null ? person.equals(that.person) : that.person == null;
     }
 
-    public String getTyp() {
+    public KommunikationsTyp getTyp() {
         return typ;
     }
 
-    public void setTyp(String typ) {
+    public void setTyp(KommunikationsTyp typ) {
         this.typ = typ;
     }
 

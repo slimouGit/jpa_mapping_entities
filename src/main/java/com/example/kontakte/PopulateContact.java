@@ -50,11 +50,11 @@ public class PopulateContact {
             meldeanschrift.setAnschrift(anschrift);
             this.meldeanschriftRepository.save(meldeanschrift);
 
-            Kommunikation k1 = new Kommunikation(Kommunikation.KommunikationsTyp.EMAIL.toString(),"max@mustermann.de");
+            Kommunikation k1 = new Kommunikation(Kommunikation.KommunikationsTyp.EMAIL,"max@mustermann.net");
             k1.setPerson(person);
-            Kommunikation k2 = new Kommunikation(Kommunikation.KommunikationsTyp.TELEFON.toString(),"069123456789");
+            Kommunikation k2 = new Kommunikation(Kommunikation.KommunikationsTyp.TELEFON,"069123456789");
             k2.setPerson(person);
-            Kommunikation k3 = new Kommunikation(Kommunikation.KommunikationsTyp.INTERNETSEITE.toString(),"www.mustermann.de");
+            Kommunikation k3 = new Kommunikation(Kommunikation.KommunikationsTyp.INTERNETSEITE,"www.mustermann.net");
             k3.setPerson(person);
 
             this.kommunikationRepository.save(k1);
@@ -77,7 +77,7 @@ public class PopulateContact {
         for (Kommunikation k : kommunikationen) {
             logger.info(++counter + ". {}: {}", k.getTyp(), k.getWert());
         }
-        
+
     }
 
 }
