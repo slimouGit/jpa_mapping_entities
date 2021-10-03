@@ -1,12 +1,23 @@
 package com.example.kontakte.person;
 
+import com.example.kontakte.anschrift.Meldeanschrift;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="person")
 public class Person {
+
+    public Person() {
+    }
+
+    public Person(String forname, String lastname) {
+        this.forname = forname;
+        this.lastname = lastname;
+    }
+
     @Id
-    @Column(name = "person_id")
+    @Column(name = "id")
     @GeneratedValue(strategy=javax.persistence.GenerationType.IDENTITY)
     private Integer id;
 
@@ -15,6 +26,19 @@ public class Person {
 
     @Column(name="lastname")
     private String lastname;
+
+    @OneToOne(mappedBy = "person", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Meldeanschrift meldeanschrift;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", forname='" + forname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -28,22 +52,6 @@ public class Person {
         return lastname != null ? lastname.equals(person.lastname) : person.lastname == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (forname != null ? forname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", forname='" + forname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
-    }
 
     public Integer getId() {
         return id;
@@ -63,5 +71,13 @@ public class Person {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public Meldeanschrift getMeldeanschrift() {
+        return meldeanschrift;
+    }
+
+    public void setMeldeanschrift(Meldeanschrift meldeanschrift) {
+        this.meldeanschrift = meldeanschrift;
     }
 }

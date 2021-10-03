@@ -7,27 +7,28 @@ import javax.persistence.*;
 @Entity
 @Table(name="meldeanschrift")
 public class Meldeanschrift {
-    @Id
-    @Column(name = "meldeanschrift_id")
-    @GeneratedValue(strategy=javax.persistence.GenerationType.IDENTITY)
-    private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name="person_id")
-    private Person person;
+    public Meldeanschrift() {
 
-    @ManyToOne
-    @JoinColumn(name = "anschrift_id")
-    private Anschrift anschrift;
+    }
 
     public Meldeanschrift(Person person, Anschrift anschrift) {
         this.person = person;
         this.anschrift = anschrift;
     }
 
-    public Meldeanschrift() {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy=javax.persistence.GenerationType.IDENTITY)
+    private Integer id;
 
-    }
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="person_id")
+    private Person person;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "anschrift_id")
+    private Anschrift anschrift;
 
     public Person getPerson() {
         return person;

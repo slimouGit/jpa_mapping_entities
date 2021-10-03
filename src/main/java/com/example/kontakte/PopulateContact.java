@@ -7,10 +7,11 @@ import com.example.kontakte.anschrift.MeldeanschriftRepository;
 import com.example.kontakte.person.Person;
 import com.example.kontakte.person.PersonRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PopulateContact implements CommandLineRunner {
+public class PopulateContact {
 
     private PersonRepository personRepository;
     private AnschriftRepository anschriftRepository;
@@ -22,28 +23,28 @@ public class PopulateContact implements CommandLineRunner {
         this.meldeanschriftRepository = meldeanschriftRepository;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        Person person = new Person();
-        person.setForname("Mimi");
-        person.setLastname("Illmi");
+    @Bean
+    public CommandLineRunner createPerson() {
+        return args -> {
+            Person person = new Person("Max","Mustermann");
+            this.personRepository.save(person);
+            Anschrift anschrift = new Anschrift("Musterweg","42",60439,"Musterstadt");
+            this.anschriftRepository.save(anschrift);
 
-        this.personRepository.save(person);
+            Meldeanschrift meldeanschrift = new Meldeanschrift();
+            meldeanschrift.setPerson(person);
+            meldeanschrift.setAnschrift(anschrift);
+            this.meldeanschriftRepository.save(meldeanschrift);
 
-        Anschrift anschrift = new Anschrift();
-        anschrift.setStreet("Antoninusstraße");
-        anschrift.setHousenumber("64");
-        anschrift.setZipcode(60439);
-        anschrift.setLocation("Frankfurt");
+            person.setMeldeanschrift(meldeanschrift);
+            anschrift.setMeldeanschrift(meldeanschrift);
 
-        this.anschriftRepository.save(anschrift);
-
-        Meldeanschrift meldeanschrift = new Meldeanschrift();
-        meldeanschrift.setPerson(person.getId());
-        meldeanschrift.setAnschrift(anschrift.getId());
-
-        this.meldeanschriftRepository.save(meldeanschrift);
-
-
+            showData(person);
+        };
     }
+
+    private void showData(Person person) {
+        System.out.println(person.getMeldeanschrift().getAnschrift().getStreet());
+    }
+
 }

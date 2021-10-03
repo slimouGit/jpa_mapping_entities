@@ -5,8 +5,19 @@ import javax.persistence.*;
 @Entity
 @Table(name="anschrift")
 public class Anschrift {
+
+    public Anschrift() {
+    }
+
+    public Anschrift(String street, String housenumber, Integer zipcode, String location) {
+        this.street = street;
+        this.housenumber = housenumber;
+        this.zipcode = zipcode;
+        this.location = location;
+    }
+
     @Id
-    @Column(name = "anschrift_id")
+    @Column(name = "id")
     @GeneratedValue(strategy=javax.persistence.GenerationType.IDENTITY)
     private Integer id;
 
@@ -21,6 +32,10 @@ public class Anschrift {
 
     @Column(name="location")
     private String location;
+
+    @OneToOne(mappedBy = "anschrift", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Meldeanschrift meldeanschrift;
 
     @Override
     public String toString() {
@@ -45,17 +60,8 @@ public class Anschrift {
         if (housenumber != null ? !housenumber.equals(anschrift.housenumber) : anschrift.housenumber != null)
             return false;
         if (zipcode != null ? !zipcode.equals(anschrift.zipcode) : anschrift.zipcode != null) return false;
-        return location != null ? location.equals(anschrift.location) : anschrift.location == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (housenumber != null ? housenumber.hashCode() : 0);
-        result = 31 * result + (zipcode != null ? zipcode.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        return result;
+        if (location != null ? !location.equals(anschrift.location) : anschrift.location != null) return false;
+        return meldeanschrift != null ? meldeanschrift.equals(anschrift.meldeanschrift) : anschrift.meldeanschrift == null;
     }
 
     public Integer getId() {
@@ -92,5 +98,13 @@ public class Anschrift {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Meldeanschrift getMeldeanschrift() {
+        return meldeanschrift;
+    }
+
+    public void setMeldeanschrift(Meldeanschrift meldeanschrift) {
+        this.meldeanschrift = meldeanschrift;
     }
 }
