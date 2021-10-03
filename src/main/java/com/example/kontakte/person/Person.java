@@ -1,8 +1,10 @@
 package com.example.kontakte.person;
 
 import com.example.kontakte.anschrift.Meldeanschrift;
+import com.example.kontakte.kommunikation.Kommunikation;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="person")
@@ -31,6 +33,9 @@ public class Person {
             cascade = CascadeType.ALL)
     private Meldeanschrift meldeanschrift;
 
+    @OneToMany(mappedBy="person")
+    private List<Kommunikation> kommunikationen;
+
     @Override
     public String toString() {
         return "Person{" +
@@ -52,6 +57,13 @@ public class Person {
         return lastname != null ? lastname.equals(person.lastname) : person.lastname == null;
     }
 
+    public List<Kommunikation> getKommunikationen() {
+        return kommunikationen;
+    }
+
+    public void setKommunikationen(List<Kommunikation> kommunikationen) {
+        this.kommunikationen = kommunikationen;
+    }
 
     public Integer getId() {
         return id;
